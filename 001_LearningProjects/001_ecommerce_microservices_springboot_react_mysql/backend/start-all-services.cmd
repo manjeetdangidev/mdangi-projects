@@ -1,0 +1,36 @@
+@echo off
+echo Starting all microservices...
+
+echo Building all services...
+call mvn clean install -f ../pom.xml
+
+echo Starting Eureka Server...
+start "Eureka Server" cmd /k "cd eureka-server && mvn spring-boot:run"
+
+echo Waiting for Eureka Server to start...
+timeout /t 15
+
+echo Starting API Gateway...
+start "API Gateway" cmd /k "cd api-gateway && mvn spring-boot:run"
+
+echo Starting User Service...
+start "User Service" cmd /k "cd user-service && mvn spring-boot:run"
+
+echo Starting Product Service...
+start "Product Service" cmd /k "cd product-service && mvn spring-boot:run"
+
+echo Starting Order Service...
+start "Order Service" cmd /k "cd order-service && mvn spring-boot:run"
+
+echo Starting Cart Service...
+start "Cart Service" cmd /k "cd cart-service && mvn spring-boot:run"
+
+echo Starting Payment Service...
+start "Payment Service" cmd /k "cd payment-service && mvn spring-boot:run"
+
+echo All services are starting...
+echo Check individual windows for startup status
+echo Eureka Dashboard: http://localhost:8761
+echo API Gateway: http://localhost:8080
+echo Frontend: http://localhost:3000
+pause
